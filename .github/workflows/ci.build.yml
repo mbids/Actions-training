@@ -2,15 +2,16 @@ name: CI
 
 # Controls when the workflow will run
 on: push
+env:
+  ZIP_FILE: "main.zip"
+  SRC_DIR: "src/"
+  REGISTRY_URL: "https://npm.pkg.github.com/"
 
+strategy:
+  matrix:
+    os: [ubuntu-18.04, ubuntu-20.04]
+    
 jobs:
-  env:
-    ZIP_FILE: "main.zip"
-    SRC_DIR: "src/"
-    REGISTRY_URL: "https://npm.pkg.github.com/"
-  strategy:
-    matrix:
-      os: [ubuntu-18.04, ubuntu-20.04]
   Step-One:
     runs-on: ubuntu-latest
     env:
