@@ -60,13 +60,12 @@ jobs:
 
       - name: "Unzip"
         run: unzip ${{ env.ZIP_FILE }}
-  
-      - run: cd ${{ env.SRC_DIR }}
       
       - name: NPM Test
         run: |
           npm install
           npm ci
+        working-directory: ${{ env.SRC_DIR }}
 
   Step-Three:
     needs: Step-Two-and-Half
