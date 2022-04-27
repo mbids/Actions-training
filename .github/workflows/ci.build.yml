@@ -1,0 +1,113 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on: push
+  
+  # Triggers the workflow on push or pull request events but only for the main branch
+  # path: 
+  #   - "src/*" # If any of the application is altered, trigger
+  #   - ".github/workflows/ci.build.yml" # If the workflow is altered, trigger
+  #   - ".github/actions/composite/*" # If the composite action we use is altered, trigger
+  # issue: 
+  #   types:
+  #     - opened #If a new issue is opened, trigger
+  #     - labeled #If a issue is labeled, trigger
+  
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch: #Keep manual trigger just incase.
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  env:
+    ZIP_FILE: "main.zip"
+    SRC_DIR: "src/"
+    REGISTRY_URL: "https://npm.pkg.github.com/"
+  strategy:
+    matrix:
+      os: [ubuntu-18.04, ubuntu-20.04]
+
+  # This workflow contains a single job called "build"
+  Step-One:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+    env:
+      FIRST_ENV: "Matti"
+      SECOND_ENV: "B"
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
+
+      # Runs a single command using the runners shell
+      - name: Run a one-line script
+        run: echo "Hello ${{ env.FIRST_ENV }} ${{ env.SECOND_ENV }}!"
+
+      # Runs a set of commands using the runners shell
+      - name: Run a multi-line script
+        run: |
+          ls
+          cat README.md
+
+  Step-Two:
+    needs: Step-One
+    runs-on: ubuntu-latest
+    env:
+      
+    steps:
+      - uses: actions/checkout@v3 #
+      
+      - name: "Zip src"
+        run: zip ${{ env.ZIP_FILE }} ${{ env.SRC_DIR }}
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.0.0
+        with:
+          # Artifact name
+          name: Main
+          # A file, directory or wildcard pattern that describes what to upload
+          path: ${{ env.ZIP_FILE }}
+          
+  Step-Two-and-Half:
+    needs: Step-Two
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: Main
+
+      - name: "Unzip"
+        run: unzip ${{ env.ZIP_FILE }}
+  
+      - run: cd ${{ env.SRC_DIR }}
+      
+      - name: NPM Test
+        run: npm ci
+
+  Step-Three:
+    needs: Step-Two-and-Half
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          registry-url: https://npm.pkg.github.com/
+
+      - name: Download a Build Artifact
+        uses: actions/download-artifact@v3.0.0
+        with:
+          name: Main
+
+      - name: "Unzip"
+        run: unzip ${{ env.ZIP_FILE }}
+
+      - uses: .github/actions/publish
+        with:
+          registry-url: ${{ env.REGISTRY_URL }}
+          work-dir: ${{ env.SRC_DIR }}
