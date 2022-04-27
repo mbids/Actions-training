@@ -82,7 +82,7 @@ jobs:
       - name: "Unzip"
         run: unzip ${{ env.ZIP_FILE }}
 
-      - uses: "./.github/actions/publish"
-        with:
-          registry-url: ${{ env.REGISTRY_URL }}
-          work-dir: ${{ env.SRC_DIR }}
+      # - uses: "./.github/actions/publish"
+      #   with:
+      #     registry-url: ${{ env.REGISTRY_URL }}
+      #     work-dir: ${{ env.SRC_DIR }}
