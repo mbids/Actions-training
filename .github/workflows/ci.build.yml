@@ -59,7 +59,7 @@ jobs:
           name: Main
 
       - name: "Unzip"
-        run: unzip ${{ env.ZIP_FILE }}
+        run: unzip -o ${{ env.ZIP_FILE }}
       
       - name: NPM Test
         run: |
