@@ -1,0 +1,26 @@
+{
+  "your": "json config here",
+  "name": "@mbids/actions-training",
+  "version": "1.0.1",
+  "description": "mlem",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mbids/action-training.git"
+  },
+  "keywords": [
+    "mlem"
+  ],
+  "author": "mbids",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/mbids/action-training/issues"
+  },
+  "homepage": "https://github.com/mbids/action-training#readme"
+}
