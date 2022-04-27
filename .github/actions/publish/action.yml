@@ -2,21 +2,14 @@ name: 'Publish Package'
 description: 'Publishes a package to GHPR'
 inputs:
   work-dir:
-    description: "What directory to publish"
     required: true
-    default: src/
   registry-url:
-    description: "What registry to publish to"
     required: true
-    default: https://npm.pkg.github.com/
 runs:
   using: "composite"
   steps:
   - uses: actions/setup-node@v3
-      with:
-        node-version: 16
-        registry-url: ${{ inputs.registry-url }}
-    
+  
   - run: npm ci
     shell: bash
   - run: npm publish
