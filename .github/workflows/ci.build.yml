@@ -10,9 +10,6 @@ env:
 
 
 jobs:
-  strategy:
-    matrix:
-      os: [ubuntu-18.04, ubuntu-20.04]
   Step-One:
     runs-on: ubuntu-latest
     env:
@@ -47,6 +44,9 @@ jobs:
           path: ${{ env.ZIP_FILE }}
           
   Step-Two-and-Half:
+    strategy:
+      matrix:
+        os: [ubuntu-18.04, ubuntu-20.04]
     needs: Step-Two
     runs-on: ${{ matrix.os }}
     steps:
