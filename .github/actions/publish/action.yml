@@ -9,17 +9,13 @@ inputs:
     description: "What registry to publish to"
     required: true
     default: https://npm.pkg.github.com/
-outputs:
-  random-number:
-    description: "Random number"
-    value: ${{ steps.random-number-generator.outputs.random-id }}
 runs:
   using: "composite"
   steps:
     - uses: actions/setup-node@v3
         with:
           node-version: 16
-          registry-url: https://npm.pkg.github.com/
+          registry-url: ${{ inputs.registry-url }}
     
     - run: npm ci
       shell: bash
