@@ -1,0 +1,26 @@
+name: CI
+
+# Controls when the workflow will run
+on: push
+env:
+  ZIP_FILE: "main.zip"
+  SRC_DIR: "src/"
+  REGISTRY_URL: "https://npm.pkg.github.com/"
+
+
+
+jobs:
+    Step-Three:
+    needs: Step-Two-and-Half
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+          registry-url: https://npm.pkg.github.com/
+
+        - uses: "./.github/actions/publish"
+          with:
+            registry-url: ${{ env.REGISTRY_URL }}
+            work-dir: ${{ env.SRC_DIR }}
