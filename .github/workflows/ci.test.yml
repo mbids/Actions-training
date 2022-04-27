@@ -11,16 +11,17 @@ env:
 
 jobs:
   Step-Three:
+    name: "Yeet this bad boy"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3 
-      
-      - uses: actions/setup-node@v3
-        with:
-          node-version: "16"
-          registry-url: https://npm.pkg.github.com/
+    - uses: actions/checkout@v3 
 
-        - uses: "./.github/actions/publish"
-          with:
-            registry-url: ${{ env.REGISTRY_URL }}
-            work-dir: ${{ env.SRC_DIR }}
+    - uses: actions/setup-node@v3
+      with:
+        node-version: "16"
+        registry-url: https://npm.pkg.github.com/
+
+    - uses: "./.github/actions/publish"
+      with:
+        registry-url: ${{ env.REGISTRY_URL }}
+        work-dir: ${{ env.SRC_DIR }}
