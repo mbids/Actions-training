@@ -64,7 +64,9 @@ jobs:
       - run: cd ${{ env.SRC_DIR }}
       
       - name: NPM Test
-        run: npm ci
+        run: |
+          npm install
+          npm ci
 
   Step-Three:
     needs: Step-Two-and-Half
